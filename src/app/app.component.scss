@@ -1,0 +1,25 @@
+.text-right{
+  text-align: right;
+}
+.text-center{
+  text-align: center;
+}
+.main-task{
+  border: 1px solid #ddd;
+  padding: 15px;
+}
+
+.main-task ul{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.main-task ul li a{
+ text-decoration: none;
+}
+.main-task ul li{
+  padding: 10px;
+  border: 1px solid #dddddd;
+  margin-bottom: 5px;
+}

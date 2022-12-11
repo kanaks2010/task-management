@@ -1,0 +1,244 @@
+<main>
+  <div class="container">
+    <h1 class="pt-5 pb-5">Task Management System</h1>
+    <div class="container-fluid py-3">
+      <div class="col-12 text-right">
+        <button class="btn btn-sm btn-outline-primary" (click)="open(demoModal, '')">Add Task</button>
+      </div>
+      <div class="row my-3">
+        <div class="col-4">
+          <div class="main-task">
+            <label class="form-label text-center">To-Do</label>
+            <hr>
+            <ul>
+              <li *ngFor="let item of inTodo; let i = index;">
+                <a class="bi-cursor" (click)="open(demoModal, item)">
+                {{item.title}}
+              </a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="main-task">
+            <label class="form-label">In-Progress</label>
+            <hr>
+            <ul>
+              <li *ngFor="let item of inProgress; let i = index;">
+                <a class="bi-cursor" (click)="open(demoModal, item)">
+                  {{item.title}}
+                </a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="main-task">
+            <label class="form-label">Done</label>
+            <hr>
+            <ul>
+              <li *ngFor="let item of inDone; let i = index;">
+                <a class="bi-cursor" (click)="open(demoModal, item)">
+                  {{item.title}}
+                </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<ng-template #demoModal let-modal>
+  <form class="form"
+        novalidate="novalidate"
+        id="lesson_form"
+        [formGroup]="taskForm"
+        (ngSubmit)="submit()">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Create Task</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+              (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="form-group">
+        <label>Title</label>
+        <div class="input-group">
+          <input name="title" formControlName="title" class="form-control" placeholder="Input title">
+          <small class="text-danger">
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Title is required',
+          control: taskForm.controls['title']
+        }"
+          ></ng-container>
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <div class="input-group">
+          <textarea name="description" formControlName="description" class="form-control" placeholder="Description">
+
+          </textarea>
+          <small class="text-danger">
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'description is required',
+          control: taskForm.controls['description']
+        }"
+            ></ng-container>
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Priority</label>
+        <div class="form-check">
+          <input class="form-check-input" formControlName="priority" type="radio" name="priority" id="low" value="Low">
+          <label class="form-check-label" for="low">
+            Low
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" formControlName="priority" type="radio" name="priority" id="medium"
+                 value="Medium">
+          <label class="form-check-label" for="medium">
+            Medium
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" formControlName="priority" type="radio" name="priority" id="high"
+                 value="High">
+          <label class="form-check-label" for="high">
+            High
+          </label>
+        </div>
+        <small class="text-danger">
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'priority is required',
+          control: taskForm.controls['priority']
+        }"
+          ></ng-container>
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <div class="input-group">
+          <input id="startDate" formControlName="startDate" name="startDate" class="form-control"
+                 placeholder="yyyy-mm-dd" ngbDatepicker
+                 #sDate="ngbDatepicker">
+          <button type="button" class="btn btn-outline-secondary bi bi-calendar" (click)="sDate.toggle()"></button>
+        </div>
+        <small class="text-danger">
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'startDate is required',
+          control: taskForm.controls['startDate']
+        }"
+          ></ng-container>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="endDate">Start Date</label>
+        <div class="input-group">
+          <input id="endDate" formControlName="endDate" name="endDate" class="form-control" placeholder="yyyy-mm-dd"
+                 ngbDatepicker
+                 #eDate="ngbDatepicker">
+          <button type="button" class="btn btn-outline-secondary bi bi-calendar" (click)="eDate.toggle()"></button>
+        </div>
+        <small class="text-danger">
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'endDate is required',
+          control: taskForm.controls['endDate']
+        }"
+          ></ng-container>
+        </small>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select formControlName="status" class="form-select mt-3">
+          <option value="todo">To-Do</option>
+          <option value="in-progress">In-Progress</option>
+          <option value="done">Done</option>
+        </select>
+        <small class="text-danger">
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'status is required',
+          control: taskForm.controls['status']
+        }"
+          ></ng-container>
+        </small>
+      </div>
+      <div class="form-group">
+        <label>Assigned Person</label>
+        <select formControlName="assignedPerson" class="form-select mt-3">
+          <option value="person1">Person 1</option>
+          <option value="person2">Person 2</option>
+          <option value="person3">Person 3</option>
+        </select>
+        <small class="text-danger">
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'assignedPerson is required',
+          control: taskForm.controls['assignedPerson']
+        }"
+          ></ng-container>
+        </small>
+      </div>
+      <div class="form-group">
+        <label>Attachment</label>
+        <input formControlName="attachment" type="file">
+      </div>
+      <div class="form-group">
+        <label>Sub Task</label>
+        <select formControlName="subtask" class="form-select mt-3">
+          <option>Person 1</option>
+          <option>Person 2</option>
+          <option>Person 3</option>
+        </select>
+      </div>
+
+
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-dark">Save</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        {{ message }}
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
